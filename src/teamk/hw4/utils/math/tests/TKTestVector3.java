@@ -23,13 +23,19 @@ public class TKTestVector3 {
 	TKVector3 vecY; /**< A vector along the Y axis */
 	TKVector3 vecZ; /**< A vector along the Z axis */
 	TKVector3 vecA; /**< An arbitrary vector */
-
+	
+	TKVector3 vecO; /**< Test vector creation by null array */
+	
 	@Before
 	public void setUp() throws Exception {
 		vecX = new TKVector3(2.0, 0.0, 0.0);
 		vecY = new TKVector3(0.0, 4.0, 0.0);
 		vecZ = new TKVector3(0.0, 0.0, 6.0);
-		vecA = new TKVector3(5.0, 5.0, 0.0); // This should give an vector that is 45 degree from X and Y the axes
+		
+		double[] vecAPoints = new double[]{5.0, 5.0};
+		vecA = new TKVector3(vecAPoints); // This should give an vector that is 45 degree from X and Y the axes
+		
+		vecO = new TKVector3(null);
 	}
 
 	@After
@@ -53,6 +59,10 @@ public class TKTestVector3 {
 		assertEquals("X component of vecA needs to be 5.0", 5.0, vecA.getX(), _tolerance);
 		assertEquals("Y component of vecA needs to be 5.0", 5.0, vecA.getY(), _tolerance);
 		assertEquals("Z component of vecA needs to be 0.0", 0.0, vecA.getZ(), _tolerance);
+		
+		assertEquals("X component of vecO needs to be 5.0", 0.0, vecO.getX(), _tolerance);
+		assertEquals("Y component of vecO needs to be 5.0", 0.0, vecO.getY(), _tolerance);
+		assertEquals("Z component of vecO needs to be 0.0", 0.0, vecO.getZ(), _tolerance);
 	}
 	
 	@Test

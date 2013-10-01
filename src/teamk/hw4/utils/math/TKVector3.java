@@ -30,6 +30,30 @@ public class TKVector3 {
 	}
 	
 	/**
+	 * Constructor that creates a vector object with given component array
+	 * 
+	 * The first three elements in the array will be used. If there is not enough
+	 * elements, 0 will be used.
+	 * 
+	 * @param components An array containing the components.
+	 */
+	public TKVector3(double[] components) {
+		int i = 0;
+		
+		// Use the value provided if the parameter is not null
+		if(components != null) {
+			for(; i<components.length; i++) {
+				this.components[i] = components[i];
+			}
+		}
+		
+		// Padding with 0 if not enough components are provided
+		for(; i<3; i++) {
+			this.components[i] = 0;
+		}
+
+	}
+	/**
 	 * Getter of the X component
 	 * @return The X component
 	 */
