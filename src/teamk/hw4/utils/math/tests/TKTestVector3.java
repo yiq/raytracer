@@ -1,4 +1,4 @@
-package teamk.hw4.utests;
+package teamk.hw4.utils.math.tests;
 
 import static org.junit.Assert.*;
 

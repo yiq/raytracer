@@ -2,6 +2,12 @@ package teamk.hw4.controller;
 
 import javax.media.opengl.GL2;
 
+/**
+ * A concrete TKScene class that draws the specific scene for HW4
+ * 
+ * @author Yi Qiao
+ *
+ */
 public class TKRayTraceScene extends TKScene {
 
 	@Override
