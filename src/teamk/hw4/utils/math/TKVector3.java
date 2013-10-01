@@ -93,6 +93,19 @@ public class TKVector3 {
 				);
 	}
 	
+	@Override
+	public boolean equals(Object v) {
+		
+		if (v == null) return false;
+		if (getClass() != v.getClass()) return false;
+		
+		boolean result = true;
+		result = result && Math.abs(getX() - ((TKVector3)v).getX()) < 1e-6;
+		result = result && Math.abs(getY() - ((TKVector3)v).getY()) < 1e-6;
+		result = result && Math.abs(getZ() - ((TKVector3)v).getZ()) < 1e-6;
+		return result;
+	}
+	
 	/**
 	 * Vector addition
 	 * 

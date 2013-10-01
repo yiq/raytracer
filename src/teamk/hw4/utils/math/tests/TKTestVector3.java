@@ -56,12 +56,21 @@ public class TKTestVector3 {
 	}
 	
 	@Test
+	public void testEquality() {
+		assertFalse("vecX should not be equal to null", vecX.equals(null));
+		assertFalse("vecX should not be equal to an object that is not TKVector3", vecX.equals("hello world"));
+		assertFalse("vecX should not be equal to vecY", vecX.equals(vecY));
+
+		assertTrue("vecX should be equal to itself", vecX.equals(vecX));
+		assertTrue("vecX should be equal to an TKVector3 vector that has the same coordinates", vecX.equals(new TKVector3(2.0, 0.0, 0.0)));
+	}
+	
+	@Test
 	public void testLength() {
 		assertEquals("vecX needs to have a length of 2", 2.0, vecX.getLength(), _tolerance);
 		assertEquals("vecY needs to have a length of 4", 4.0, vecY.getLength(), _tolerance);
 		assertEquals("vecZ needs to have a length of 6", 6.0, vecZ.getLength(), _tolerance);
 		assertEquals("vecA needs to have a length of sqrt(50)", Math.sqrt(50), vecA.getLength(), _tolerance);
-
 	}
 	
 	@Test
