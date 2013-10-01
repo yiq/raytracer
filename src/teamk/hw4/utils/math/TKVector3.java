@@ -16,6 +16,8 @@ public class TKVector3 {
 	 */
 	protected double[] components = new double[3];
 	
+	private static TKVector3 zeroVector;
+	
 	/**
 	 * Constructor that creates a vector object with given components
 	 * 
@@ -51,8 +53,23 @@ public class TKVector3 {
 		for(; i<3; i++) {
 			this.components[i] = 0;
 		}
-
 	}
+	
+	/**
+	 * Return the object that represent the vector (0, 0, 0)
+	 * 
+	 * Since this class is immutable, there is no need to create a new object every time
+	 * the zero vector is needed for calculation. Thus this function is static, and return
+	 * the "one" object stored in the static field "zeroVector"
+	 * 
+	 * @return The singleton object representing the vector (0, 0, 0)
+	 */
+	public static TKVector3 getZeroVector() {
+		if(zeroVector == null) zeroVector = new TKVector3(0, 0, 0);
+		return zeroVector;
+	}
+	
+	
 	/**
 	 * Getter of the X component
 	 * @return The X component

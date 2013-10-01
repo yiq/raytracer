@@ -60,9 +60,19 @@ public class TKTestVector3 {
 		assertEquals("Y component of vecA needs to be 5.0", 5.0, vecA.getY(), _tolerance);
 		assertEquals("Z component of vecA needs to be 0.0", 0.0, vecA.getZ(), _tolerance);
 		
-		assertEquals("X component of vecO needs to be 5.0", 0.0, vecO.getX(), _tolerance);
-		assertEquals("Y component of vecO needs to be 5.0", 0.0, vecO.getY(), _tolerance);
+		assertEquals("X component of vecO needs to be 0.0", 0.0, vecO.getX(), _tolerance);
+		assertEquals("Y component of vecO needs to be 0.0", 0.0, vecO.getY(), _tolerance);
 		assertEquals("Z component of vecO needs to be 0.0", 0.0, vecO.getZ(), _tolerance);
+	}
+	
+	@Test
+	public void testZeroVectorConstant() {
+		TKVector3 zeroVector = TKVector3.getZeroVector();
+		
+		assertTrue("zeroVector is not null", zeroVector != null);
+		assertEquals("X component of zeroVector needs to be 0.0", 0.0, zeroVector.getX(), _tolerance);
+		assertEquals("Y component of zeroVector needs to be 0.0", 0.0, zeroVector.getY(), _tolerance);
+		assertEquals("Z component of zeroVector needs to be 0.0", 0.0, zeroVector.getZ(), _tolerance);
 	}
 	
 	@Test
