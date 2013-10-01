@@ -93,4 +93,40 @@ public class TKVector3 {
 				);
 	}
 	
+	/**
+	 * Vector addition
+	 * 
+	 * Geometrically, the resulting vector is the third edge of a triangle with the other
+	 * two edge being the current vector and the given vector, and the given vector moved
+	 * the end point of the current vector
+	 * 
+	 * @param anotherVector The second operand in the add operation
+	 * @return The resulting vector of the two vector's sum
+	 */
+	public TKVector3 add(TKVector3 anotherVector) {
+		return new TKVector3(
+				getX() + anotherVector.getX(),
+				getY() + anotherVector.getY(),
+				getZ() + anotherVector.getZ());
+	}
+	
+	/**
+	 * Vector subtraction
+	 * 
+	 * Geometrically, the resulting vector is the third edge of a triangle, with the other
+	 * two edges being the current vector and the inverse of the given vector, and the inverse
+	 * of the given vector moved to the end point of the current vector
+	 * 
+	 * A handy usage of this operation is that the length of the resulting vector is the same as
+	 * the distance between the end points of the current and given vectors.
+	 * 
+	 * @param anotherVector The second operand in ths sub operation
+	 * @return The resulting vector of current vector minus the given vector
+	 */
+	public TKVector3 sub(TKVector3 anotherVector) {
+		return new TKVector3(
+				getX() - anotherVector.getX(),
+				getY() - anotherVector.getY(),
+				getZ() - anotherVector.getZ());
+	}
 }

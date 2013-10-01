@@ -90,7 +90,7 @@ public class TKTestVector3 {
 		// Angle between the arbitrary vector and the axes
 		assertEquals("The cosine of the angle between vecA and vecX needs to be sqrt(2)/2", Math.sqrt(2.0)/2.0, vecA.cosAngleToVector(vecX), _tolerance);
 		assertEquals("The cosine of the angle between vecA and vecY needs to be sqrt(2)/2", Math.sqrt(2.0)/2.0, vecA.cosAngleToVector(vecY), _tolerance);
-		assertEquals("The cosine of the angle between vecA and vecZ needs to be 0", 0.0, vecA.cosAngleToVector(vecZ), _tolerance);		
+		assertEquals("The cosine of the angle between vecA and vecZ needs to be 0", 0.0, vecA.cosAngleToVector(vecZ), _tolerance);
 	}
 	
 	@Test
@@ -116,6 +116,40 @@ public class TKTestVector3 {
 		assertEquals("The cosine of the angle from vecANormalized to vecZNormalized needs to be 0", 0.0, vecANormalized.cosAngleToVector(vecZNormalized), _tolerance);
 
 		// Test immutability by checking the original vectors didn't change
+		testCreation();
+	}
+	
+	@Test
+	public void testAdd() {
+		TKVector3 xPlusA = vecX.add(vecA);
+		
+		// Test for Algebra meanings
+		assertEquals("X component of xPlusA needs to be 7.0", 7.0, xPlusA.getX(), _tolerance);
+		assertEquals("Y component of xPlusA needs to be 5.0", 5.0, xPlusA.getY(), _tolerance);
+		assertEquals("Z component of xPlusA needs to be 0.0", 0.0, xPlusA.getZ(), _tolerance);
+		
+		// Test for Geometry meanings
+		assertEquals("xPlusA needs to have a length of sqrt(74)", Math.sqrt(74), xPlusA.getLength(), _tolerance);
+		assertEquals("The cosine of the angle between xPlusA and xAxis needs to be 7/sqrt(74)", 7.0 / Math.sqrt(74), xPlusA.cosAngleToVector(vecX), _tolerance);
+		
+		// Test for immutability
+		testCreation();
+	}
+	
+	@Test
+	public void testSub() {
+		TKVector3 xMinusA = vecX.sub(vecA);
+		
+		// Test for Algebra meanings
+		assertEquals("X component of xMinusA needs to be -3.0", -3.0, xMinusA.getX(), _tolerance);
+		assertEquals("Y component of xMinusA needs to be -5.0", -5.0, xMinusA.getY(), _tolerance);
+		assertEquals("Z component of xMinusA needs to be 0.0",   0.0, xMinusA.getZ(), _tolerance);
+		
+		// Test for Geometry meanings
+		assertEquals("xMinusA needs to have a length of sqrt(34)", Math.sqrt(34), xMinusA.getLength(), _tolerance);
+		assertEquals("The cosine of the angle between xMinusA and xAxis needs to be -3/sqrt(34)", -3.0 / Math.sqrt(34), xMinusA.cosAngleToVector(vecX), _tolerance);
+		
+		// Test for immutability
 		testCreation();
 	}
 
