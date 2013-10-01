@@ -10,8 +10,9 @@ import teamk.hw4.utils.math.TKVector3;
 
 
 /**
- * Unit test cases for the TKVector3 class
+ * Unit test case for the TKVector3 class
  * 
+ * @see TKVector3
  * @author Yi Qiao
  *
  */
