@@ -1,4 +1,4 @@
-package teamk.hw4.model.geometry.tests;
+package teamk.hw4.model.tests;
 
 import static org.junit.Assert.*;
 
