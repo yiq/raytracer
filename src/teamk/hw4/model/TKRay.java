@@ -69,7 +69,7 @@ public class TKRay {
 			p1 = arg2;
 		
 		// If p0 and p1 end up to be the same, an IllegalArgumentException will be thrown
-		if(this.p0.equals(this.p1)) throw new IllegalArgumentException();
+		if(p0.equals(p1)) throw new IllegalArgumentException();
 	}
 	
 	/**
