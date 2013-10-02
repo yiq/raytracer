@@ -1,4 +1,4 @@
-package teamk.hw4.model.tests;
+package teamk.hw4.model.geometry.tests;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import teamk.hw4.model.*;
+import teamk.hw4.model.geometry.TKPlane;
 import teamk.hw4.utils.math.*;
 /**
  * Unit test case for TKPlane

@@ -1,4 +1,4 @@
-package teamk.hw4.model;
+package teamk.hw4.model.uvmapper;
 
 import teamk.hw4.utils.math.TKVector3;
 
@@ -11,7 +11,7 @@ import teamk.hw4.utils.math.TKVector3;
 public class TKSimpleUVMapper extends TKAbstractUVMapper {
 
 	@Override
-	double[] mapPointToUV(TKVector3 p) {
+	public double[] mapPointToUV(TKVector3 p) {
 		return new double[]{0.0, 0.0};
 	}
 

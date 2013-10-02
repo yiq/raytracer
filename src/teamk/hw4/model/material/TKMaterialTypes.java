@@ -1,4 +1,4 @@
-package teamk.hw4.model;
+package teamk.hw4.model.material;
 
 /**
  * A list of supported material types

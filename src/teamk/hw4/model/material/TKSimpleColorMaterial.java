@@ -1,4 +1,4 @@
-package teamk.hw4.model;
+package teamk.hw4.model.material;
 
 /**
  * A simple material class that has only one intrinsic color

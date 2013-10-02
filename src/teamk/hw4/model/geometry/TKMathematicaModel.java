@@ -1,4 +1,4 @@
-package teamk.hw4.model;
+package teamk.hw4.model.geometry;
 
 /**
  * An abstract class for any objects that utilizes equations output by Mathematica

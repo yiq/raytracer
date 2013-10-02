@@ -1,5 +1,6 @@
-package teamk.hw4.model;
+package teamk.hw4.model.geometry;
 
+import teamk.hw4.model.TKRay;
 import teamk.hw4.utils.math.TKVector3;
 
 /**

@@ -1,5 +1,9 @@
-package teamk.hw4.model;
+package teamk.hw4.model.geometry;
 
+import teamk.hw4.model.TKITraceable;
+import teamk.hw4.model.material.TKAbstractMaterial;
+import teamk.hw4.model.material.TKMaterialTypes;
+import teamk.hw4.model.uvmapper.TKAbstractUVMapper;
 import teamk.hw4.utils.math.TKVector3;
 
 public abstract class TKAbstractGeometryObject extends TKMathematicaModel implements TKITraceable {

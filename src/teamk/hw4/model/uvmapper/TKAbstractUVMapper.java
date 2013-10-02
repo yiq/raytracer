@@ -1,4 +1,4 @@
-package teamk.hw4.model;
+package teamk.hw4.model.uvmapper;
 
 import teamk.hw4.utils.math.*;
 
@@ -15,6 +15,6 @@ public abstract class TKAbstractUVMapper {
 	 * @param p The point in model coordinate
 	 * @return  The uv coordinates in texture coordinate
 	 */
-	abstract double[] mapPointToUV(TKVector3 p);
+	abstract public double[] mapPointToUV(TKVector3 p);
 
 }
