@@ -1,6 +1,10 @@
 package teamk.hw4.controller;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.media.opengl.GL2;
+
 import teamk.hw4.model.*;
 import teamk.hw4.utils.math.*;
 
@@ -13,8 +17,16 @@ import teamk.hw4.utils.math.*;
  */
 public class TKRayTraceScene extends TKScene {
 	
-	private TKVector3 lightLocation; /**< The location of the light source */
-
+	private TKVector3 lightLocation; 	/**< The location of the light source */
+	
+	/** The objects in the scene */
+	private List<TKITraceable> objects = new LinkedList<TKITraceable>();	
+	
+	public TKRayTraceScene() {
+		// TODO Construct the scene
+		
+	}
+	
 	@Override
 	public void render(GL2 gl) {
 		// TODO Auto-generated method stub
