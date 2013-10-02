@@ -141,5 +141,46 @@ public class TKTestSphere {
 		roots = sphere.findRootsOnRay(nonInterceptingRay4);
 		assertNull("For nonInterceptingRay4 there must be no root", roots);
 	}
+	
+	@Test
+	public void testSurfaceNormal() {
+		TKVector3 surfaceNormal;
+		
+		// x-y plane
+		TKVector3 testPoint1 = new TKVector3(5.0, 7.0, 0.0);
+		surfaceNormal = sphere.surfaceNormalAtPoint(testPoint1);
+		assertNotNull("Surface normal exists at point (5,7,0)", surfaceNormal);
+		assertTrue("Surface normal at (5,7,0) needs to be (0,1,0)", surfaceNormal.equals(new TKVector3(0.0, 1.0, 0.0)));
+	
+		TKVector3 testPoint2 = new TKVector3(7.0, 5.0, 0.0);
+		surfaceNormal = sphere.surfaceNormalAtPoint(testPoint2);
+		assertNotNull("Surface normal exists at point (7,5,0)", surfaceNormal);
+		assertTrue("Surface normal at (7,5,0) needs to be (1,0,0)", surfaceNormal.equals(new TKVector3(1.0, 0.0, 0.0)));
+		
+		TKVector3 testPoint3 = new TKVector3(5.0, 3.0, 0.0);
+		surfaceNormal = sphere.surfaceNormalAtPoint(testPoint3);
+		assertNotNull("Surface normal exists at point (5,3,0)", surfaceNormal);
+		assertTrue("Surface normal at (5,3,0) needs to be (0,-1,0)", surfaceNormal.equals(new TKVector3(0.0, -1.0, 0.0)));
+		
+		TKVector3 testPoint4 = new TKVector3(3.0, 5.0, 0.0);
+		surfaceNormal = sphere.surfaceNormalAtPoint(testPoint4);
+		assertNotNull("Surface normal exists at point (3,5,0)", surfaceNormal);
+		assertTrue("Surface normal at (3,5,0) needs to be (0,1,0)", surfaceNormal.equals(new TKVector3(-1.0, 0.0, 0.0)));
+		
+		TKVector3 testPoint5 = new TKVector3(5.0 + Math.sqrt(2), 5.0 + Math.sqrt(2), 0.0);
+		surfaceNormal = sphere.surfaceNormalAtPoint(testPoint5);
+		assertNotNull("Surface normal exists at point (5+sqrt(2),5+sqrt(2),0)", surfaceNormal);
+		assertTrue("Surface normal at (5+sqrt(2),5+sqrt(2),0) needs to be (sqrt(2)/2,sqrt(2)/2,0)", surfaceNormal.equals(new TKVector3(Math.sqrt(2.0)/2.0, Math.sqrt(2.0)/2.0, 0.0)));
+	
+		// a point outside the sphere
+		TKVector3 testPoint6 = new TKVector3(5.0, 5.0, 5.0);
+		surfaceNormal = sphere.surfaceNormalAtPoint(testPoint6);
+		assertNull("Surface normal does not exist at point (5,5,5)", surfaceNormal);
+		
+		// a point inside the sphere
+		TKVector3 testPoint7 = new TKVector3(5.0, 5.0, 1.0);
+		surfaceNormal = sphere.surfaceNormalAtPoint(testPoint7);
+		assertNull("Surface normal does not exist at point (5,5,1)", surfaceNormal);
+	}
 
 }

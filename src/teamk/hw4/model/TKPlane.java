@@ -40,8 +40,10 @@ public class TKPlane extends TKMathematicaModel implements TKITraceable {
 
 	@Override
 	public TKVector3 surfaceNormalAtPoint(TKVector3 p) {
-		// TODO Auto-generated method stub
-		return null;
+		if(doubleEqual(A*p.getX() + B*p.getY() + C*p.getZ() + D, 0.0))
+			return new TKVector3(A, B, C).getNormalized();
+		else
+			return null;
 	}
 
 }

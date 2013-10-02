@@ -77,7 +77,7 @@ public class TKSphere extends TKMathematicaModel implements TKITraceable {
 		
 		// Check whether p is actually on the surface by checking the normal vector length
 		// If p is not on the surface, return null
-		return doubleEqual(normalVector.getLength(), radius) ? normalVector : null;
+		return doubleEqual(normalVector.getLength(), radius) ? normalVector.getNormalized() : null;
 	}
 
 }
