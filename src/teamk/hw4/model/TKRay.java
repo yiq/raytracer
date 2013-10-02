@@ -53,19 +53,22 @@ public class TKRay {
 	
 	/**
 	 * Construct a ray with two points, or one point and a directional vector
-	 * @param p0 					The first point the ray passes through
-	 * @param p1 					The second point the ray passes through, or a directional vector
-	 * @param secondPointDirecional If the second parameter is a direction vector
+	 * @param arg1 				The first point the ray passes through
+	 * @param arg2 				The second point the ray passes through, or a directional vector
+	 * @param arg2Directional 	If the second parameter is a direction vector
+	 * 
+	 * @throws IllegalArgumentException If p0 and p1 winds up to be the same, since a line cannot be defined by one point only
 	 */
-	public TKRay(TKVector3 p0, TKVector3 p1, boolean secondPointDirectional) {
+	public TKRay(TKVector3 arg1, TKVector3 arg2, boolean arg2Directional) throws IllegalArgumentException {
 		// since TKVector3 is immutable, a copy-by-reference should be fine
-		this.p0 = p0;
+		p0 = arg1;
 		
-		if(!secondPointDirectional)
-			this.p1 = p1;
+		if(arg2Directional)
+			p1 = arg1.add(arg2);
 		else
-			this.p1 = p0.add(p1);
+			p1 = arg2;
 		
+		// If p0 and p1 end up to be the same, an IllegalArgumentException will be thrown
 		if(this.p0.equals(this.p1)) throw new IllegalArgumentException();
 	}
 	
