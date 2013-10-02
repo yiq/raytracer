@@ -36,6 +36,28 @@ public class TKTestRay {
 	}
 	
 	@Test
+	public void testDirectionalCreation() {
+		TKRay directionalRay = new TKRay(
+				new TKVector3(1.0, 1.0, 1.0),
+				new TKVector3(1.0, 1.0, 1.0),
+				true
+				);
+
+		// Test for p0
+		assertTrue("The p0 of the ray should be (1,1,1)", directionalRay.getP0().equals(new TKVector3(1.0, 1.0, 1.0)));
+		
+		// Test for direction
+		TKVector3 rayDirection = directionalRay.getP1().sub(directionalRay.getP0()).getNormalized();
+		assertTrue("The direction of the ray should be the same as (1,1,1)", rayDirection.equals((new TKVector3(1.0, 1.0, 1.0).getNormalized())));
+
+		// Test for arbitary point
+		// pointOnRay is on the Ray if the line between it and p0 has the same directionality as the ray
+		TKVector3 pointOnRay = new TKVector3(-1.0, -1.0, -1.0);
+		TKVector3 pointToP0Direction = directionalRay.getP1().sub(pointOnRay).getNormalized();
+		assertTrue("The point (-1, -1, -1) should be on the ray", pointToP0Direction.equals(rayDirection));
+	}
+	
+	@Test
 	public void testParametric() {
 		TKIParametricEquation equation = testRay.getParametricEquation();
 		
