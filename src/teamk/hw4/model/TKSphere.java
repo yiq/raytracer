@@ -8,7 +8,7 @@ import teamk.hw4.utils.math.*;
  * @author Yi Qiao
  *
  */
-public class TKSphere extends TKMathematicaModel implements TKITraceable {
+public class TKSphere extends TKAbstractGeometryObject {
 	
 	private TKVector3 center;	/**< The center coordinate of the sphere */
 	private double    radius;	/**< The radius of the sphere */

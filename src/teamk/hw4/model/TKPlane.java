@@ -8,7 +8,7 @@ import teamk.hw4.utils.math.TKVector3;
  * @author Yi Qiao
  *
  */
-public class TKPlane extends TKMathematicaModel implements TKITraceable {
+public class TKPlane extends TKAbstractGeometryObject {
 	
 	private double A, B, C, D;	/**< Parameters */
 	
@@ -45,5 +45,4 @@ public class TKPlane extends TKMathematicaModel implements TKITraceable {
 		else
 			return null;
 	}
-
 }
