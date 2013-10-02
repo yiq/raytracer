@@ -51,10 +51,31 @@ public class TKRay {
 		}
 	}
 	
-	public TKRay(TKVector3 p0, TKVector3 p1) {
+	/**
+	 * Construct a ray with two points, or one point and a directional vector
+	 * @param p0 					The first point the ray passes through
+	 * @param p1 					The second point the ray passes through, or a directional vector
+	 * @param secondPointDirecional If the second parameter is a direction vector
+	 */
+	public TKRay(TKVector3 p0, TKVector3 p1, boolean secondPointDirectional) {
 		// since TKVector3 is immutable, a copy-by-reference should be fine
 		this.p0 = p0;
-		this.p1 = p1;
+		
+		if(!secondPointDirectional)
+			this.p1 = p1;
+		else
+			this.p1 = p0.add(p1);
+		
+		if(this.p0.equals(this.p1)) throw new IllegalArgumentException();
+	}
+	
+	/**
+	 * Construct a ray with two points
+	 * @param p0 					The first point the ray passes through
+	 * @param p1 					The second point the ray passes through
+	 */
+	public TKRay(TKVector3 p0, TKVector3 p1) {
+		this(p0, p1, false);
 	}
 	
 	public TKVector3 getP0() {return p0;}
