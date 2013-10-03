@@ -10,8 +10,10 @@ import teamk.hw4.model.TKRay;
 import teamk.hw4.model.geometry.TKAbstractGeometryObject;
 import teamk.hw4.model.geometry.TKPlane;
 import teamk.hw4.model.geometry.TKSphere;
+import teamk.hw4.model.material.TKImageTextureMaterial;
 import teamk.hw4.model.material.TKSimpleColorMaterial;
 import teamk.hw4.model.material.TKSimpleMirrorMaterial;
+import teamk.hw4.model.uvmapper.TKSphereLatLongUVMapper;
 import teamk.hw4.utils.math.TKVector3;
 
 public class QYRayTraceScene extends TKScene {
@@ -38,7 +40,12 @@ public class QYRayTraceScene extends TKScene {
 		
 		// Create a sphere
 		TKAbstractGeometryObject sphere = new TKSphere(new TKVector3(250.0, 250.0, -100.0), 50.0);
-		sphere.setMaterial(TKSimpleColorMaterial.blueColor);
+		
+		TKImageTextureMaterial earthMap = new TKImageTextureMaterial("/Users/qiaoy/Desktop/4128.jpg");
+		earthMap.width = 180; earthMap.height=360;
+		earthMap.xStart = -90; earthMap.yStart = 0;
+		sphere.setMaterial(earthMap);
+		sphere.setUVMapper(new TKSphereLatLongUVMapper(new TKVector3(250.0, 250.0, -100.0), 50.0));
 		objects.add(sphere);
 		
 		// Create a plane
@@ -129,8 +136,8 @@ public class QYRayTraceScene extends TKScene {
 					ambientColor[2] * 0.2 + intrinsicColor[2] * 0.8 * illumAngle,
 					ambientColor[3] * 0.2 + intrinsicColor[3] * 0.8 * illumAngle
 			};
-			
-			return blentColor;
+			return intrinsicColor;
+//			return blentColor;
 		case MIRROR:
 			TKRay refRay = reflectedRay(ray, closestObject.surfaceNormalAtPoint(p), p);
 			return look(refRay);
