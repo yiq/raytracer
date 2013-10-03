@@ -182,5 +182,22 @@ public class TKTestVector3 {
 		// Test for immutability
 		testCreation();
 	}
+	
+	@Test
+	public void testMul() {
+		TKVector3 aMul3 = vecA.mul(3);
+		// Test for Algebra meanings
+		assertEquals("X component of aMul3 needs to be 15.0", 15.0, aMul3.getX(), _tolerance);
+		assertEquals("Y component of aMul3 needs to be 15.0", 15.0, aMul3.getY(), _tolerance);
+		assertEquals("Z component of aMul3 needs to be 0.0",   0.0, aMul3.getZ(), _tolerance);
+		
+		// Test for Geometry meanings
+		assertEquals("aMul3 needs to have a length of 3 times the length of vecA", vecA.getLength()*3.0, aMul3.getLength(), _tolerance);
+
+		
+		// Test for immutability
+		testCreation();
+		
+	}
 
 }

@@ -183,4 +183,19 @@ public class TKVector3 {
 				getY() - anotherVector.getY(),
 				getZ() - anotherVector.getZ());
 	}
+	
+	/**
+	 * Vector multiplies a scalar
+	 * 
+	 * The resulting vector will have their elements each multiplied by the scalar
+	 * 
+	 * @param a The scalar the vector is being multiplied by
+	 * @return  The resulting vector
+	 */
+	public TKVector3 mul(double a) {
+		return new TKVector3(
+				getX() * a,
+				getY() * a,
+				getZ() * a);
+	}
 }
