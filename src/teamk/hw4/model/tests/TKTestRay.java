@@ -36,6 +36,11 @@ public class TKTestRay {
 	}
 	
 	@Test
+	public void testDirection() {
+		assertTrue("The ray should have a direction of (3,4,5) normalized", testRay.getDirectionalVector().equals((new TKVector3(3.0, 4.0, 5.0)).getNormalized()));
+	}
+	
+	@Test
 	public void testDirectionalCreation() {
 		TKRay directionalRay = new TKRay(
 				new TKVector3(1.0, 1.0, 1.0),
@@ -47,7 +52,7 @@ public class TKTestRay {
 		assertTrue("The p0 of the ray should be (1,1,1)", directionalRay.getP0().equals(new TKVector3(1.0, 1.0, 1.0)));
 		
 		// Test for direction
-		TKVector3 rayDirection = directionalRay.getP1().sub(directionalRay.getP0()).getNormalized();
+		TKVector3 rayDirection = directionalRay.getDirectionalVector();
 		assertTrue("The direction of the ray should be the same as (1,1,1)", rayDirection.equals((new TKVector3(1.0, 1.0, 1.0).getNormalized())));
 
 		// Test for arbitary point

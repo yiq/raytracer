@@ -84,6 +84,10 @@ public class TKRay {
 	public TKVector3 getP0() {return p0;}
 	public TKVector3 getP1() {return p1;}
 	
+	public TKVector3 getDirectionalVector() {
+		return p1.sub(p0).getNormalized();
+	}
+	
 	public TKIParametricEquation getParametricEquation() {
 		return new TKLineParametric(p0, p1);
 	}
