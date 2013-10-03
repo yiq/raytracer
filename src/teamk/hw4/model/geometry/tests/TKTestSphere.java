@@ -9,7 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import teamk.hw4.model.*;
-import teamk.hw4.model.geometry.TKSphere;
+import teamk.hw4.model.geometry.*;
+import teamk.hw4.model.material.*;
 import teamk.hw4.utils.math.*;
 
 /**
@@ -183,6 +184,27 @@ public class TKTestSphere {
 		TKVector3 testPoint7 = new TKVector3(5.0, 5.0, 1.0);
 		surfaceNormal = sphere.surfaceNormalAtPoint(testPoint7);
 		assertNull("Surface normal does not exist at point (5,5,1)", surfaceNormal);
+	}
+	
+	@Test
+	public void testMaterial() {
+		TKAbstractGeometryObject tempSphere = new TKSphere(new TKVector3(0, 0, 0), 1);
+		TKVector3 surfacePoint = new TKVector3(0, 0, 1);
+		TKVector3 nonsurfacePoint = new TKVector3(0, 0, 0);
+		
+		assertNull("no color should be returned before assigning a material", tempSphere.getColorAtSurfacePoint(surfacePoint));
+		assertTrue("UNDEFINED material type should be returned before assigning a material", tempSphere.getMaterialTypeAtSurfacePoint(surfacePoint) == TKMaterialTypes.UNDEFINED);
+
+		tempSphere.setMaterial(TKSimpleColorMaterial.blueColor);
+		double[] color = tempSphere.getColorAtSurfacePoint(surfacePoint);
+		assertEquals("the returned color should have a red factor of 0.0", 0.0, color[0], _tolerance);
+		assertEquals("the returned color should have a green factor of 0.0", 0.0, color[1], _tolerance);
+		assertEquals("the returned color should have a blue factor of 1.0", 1.0, color[2], _tolerance);
+		assertEquals("the returned color should have a alpha factor of 1.0", 1.0, color[3], _tolerance);
+		assertTrue("the returned material type should be SIMPLE", tempSphere.getMaterialTypeAtSurfacePoint(surfacePoint) == TKMaterialTypes.SIMPLE);
+		
+		assertNull("no color should be returned on a non-surface point", tempSphere.getColorAtSurfacePoint(nonsurfacePoint));
+		assertTrue("UNDEFINED material type should be returned on a non-surface point", tempSphere.getMaterialTypeAtSurfacePoint(nonsurfacePoint) == TKMaterialTypes.UNDEFINED);
 	}
 
 }

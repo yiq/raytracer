@@ -21,7 +21,7 @@ public abstract class TKAbstractGeometryObject extends TKMathematicaModel implem
 	/**
 	 * Returns the intrinsic color at the given surface point
 	 * @param p The surface point
-	 * @return  The intrinsic color at the surface point, null if the point is not on the surface
+	 * @return  The intrinsic color at the surface point, null if the point is not on the surface or no material has been set for the object
 	 */
 	public double[] getColorAtSurfacePoint(TKVector3 p) {
 		if(material == null) return null;
@@ -32,6 +32,7 @@ public abstract class TKAbstractGeometryObject extends TKMathematicaModel implem
 		if(uvMapper == null) 	uvCoordinates = new double[]{0.0, 0.0};
 		else 					uvCoordinates = uvMapper.mapPointToUV(p);
 		
+		if (material == null) return null;
 		return material.getColorAtUVCoordinate(uvCoordinates[0], uvCoordinates[1]);
 		
 	}
@@ -39,7 +40,7 @@ public abstract class TKAbstractGeometryObject extends TKMathematicaModel implem
 	/**
 	 * Returns the material type at the given surface point
 	 * @param p The surface point
-	 * @return  The material type at the given surface point, UNDEFINED if the point is not on the surface
+	 * @return  The material type at the given surface point, UNDEFINED if the point is not on the surface or no material has been set for the object
 	 */
 	public TKMaterialTypes getMaterialTypeAtSurfacePoint(TKVector3 p) {
 		if(material == null) return TKMaterialTypes.UNDEFINED;
@@ -50,6 +51,7 @@ public abstract class TKAbstractGeometryObject extends TKMathematicaModel implem
 		if(uvMapper == null) 	uvCoordinates = new double[]{0.0, 0.0};
 		else 					uvCoordinates = uvMapper.mapPointToUV(p);
 		
+		if (material == null) return TKMaterialTypes.UNDEFINED;
 		return material.getMaterialTypeAtUVCoordinate(uvCoordinates[0], uvCoordinates[1]);
 	}
 }

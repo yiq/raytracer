@@ -81,5 +81,4 @@ public class TKTestPlane {
 		surfaceNormal = plane.surfaceNormalAtPoint(testPoint2);
 		assertNull("Surface normal does not exist at point (1,1,1)", surfaceNormal);
 	}
-
 }

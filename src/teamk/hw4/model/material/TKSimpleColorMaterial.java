@@ -25,6 +25,10 @@ public class TKSimpleColorMaterial extends TKAbstractMaterial {
 	public double[] getColorAtUVCoordinate(double ux, double uy) {
 		return new double[]{r, g, b, a};
 	}
+	
+	public static TKAbstractMaterial redColor = new TKSimpleColorMaterial(1.0, 0.0, 0.0, 1.0);
+	public static TKAbstractMaterial greenColor = new TKSimpleColorMaterial(0.0, 1.0, 0.0, 1.0);
+	public static TKAbstractMaterial blueColor = new TKSimpleColorMaterial(0.0, 0.0, 1.0, 1.0);
 
 
 }
