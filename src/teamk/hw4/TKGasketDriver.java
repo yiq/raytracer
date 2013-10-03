@@ -96,7 +96,7 @@ public class TKGasketDriver implements GLEventListener {
 		
 		// Create the scene and driver objects, and register
 		// the scene as the keyboard event listener
-		TKScene raytraceScene = new TKRayTraceScene();
+		TKScene raytraceScene = new QYRayTraceScene();
 		TKGasketDriver driver = new TKGasketDriver(raytraceScene);
 		canvas.addGLEventListener(driver);
 		canvas.addKeyListener(raytraceScene);
