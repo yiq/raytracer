@@ -8,12 +8,12 @@ import teamk.hw4.utils.math.TKVector3;
  * @author Yi Qiao
  *
  */
-public class TKSphereLatLongUVMapper extends TKAbstractUVMapper {
+public class TKSphereLongLatUVMapper extends TKAbstractUVMapper {
 	
 	private TKVector3 center;
 	private double radius;
 	
-	public TKSphereLatLongUVMapper(TKVector3 center, double radius) {
+	public TKSphereLongLatUVMapper(TKVector3 center, double radius) {
 		this.center = center;
 		this.radius = radius;
 	}
@@ -33,7 +33,7 @@ public class TKSphereLatLongUVMapper extends TKAbstractUVMapper {
 		
 		if(Double.isNaN(Long)) Long = 0.0;
 				
-		return new double[] {Lat, Long};
+		return new double[] {Long, Lat};
 	}
 
 }

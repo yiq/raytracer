@@ -32,12 +32,19 @@ public class TKImageTextureMaterial extends TKAbstractMaterial {
 		
 		if(textureImage == null) return null;
 		
+		assert(ux >= xStart && ux < xStart + width);
+		assert(uy >= yStart && uy < yStart + height);
+		
 		int x = (int)((ux - xStart) / width * textureImage.getWidth());
 		int y = (int)((uy - yStart) / height * textureImage.getHeight());
 		
 		Color color = new Color(textureImage.getRGB(x, y));
 		
-		return new double[] {color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()};
+		return new double[] {
+				color.getRed()/256.0, 
+				color.getGreen()/256.0, 
+				color.getBlue()/256.0, 
+				1.0 /*color.getAlpha()*/};
 	}
 
 }
