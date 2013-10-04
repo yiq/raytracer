@@ -35,6 +35,7 @@ public class TKGasketDriver implements GLEventListener {
 	 */
 	public TKGasketDriver(TKScene aScene) {
 		scene = aScene;
+		lastUpdateEpoch = System.currentTimeMillis();
 	}
 	
 	@Override
