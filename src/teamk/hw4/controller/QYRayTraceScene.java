@@ -13,7 +13,7 @@ import teamk.hw4.model.geometry.TKSphere;
 import teamk.hw4.model.material.TKImageTextureMaterial;
 import teamk.hw4.model.material.TKSimpleColorMaterial;
 import teamk.hw4.model.material.TKSimpleMirrorMaterial;
-import teamk.hw4.model.uvmapper.TKSphereLatLongUVMapper;
+import teamk.hw4.model.uvmapper.TKSphereLongLatUVMapper;
 import teamk.hw4.utils.math.TKVector3;
 
 public class QYRayTraceScene extends TKScene {
@@ -21,43 +21,57 @@ public class QYRayTraceScene extends TKScene {
 	private TKVector3 lightLocation; 	/**< The location of the light source */
 	private TKVector3 eyeLocation;		/**< The location of the eye */
 	
+	public double windowWidth;
+	public double windowHeight;
+	
 	private int xScanDensity;
 	private int yScanDensity;
+	
+	private double xScanRatio = 0.5;
+	private double yScanRatio = 0.5;
+	
 	private double[][][] rayTraceBuffer;
 	
-	private double[] ambientColor = new double[] {1.0, 1.0, 1.0, 1.0};
-		
+	private double[] ambientColor = new double[] {0.25, 0.25, 0.25, 1.0};
+	private double[] specularColor = new double[] {1.0, 1.0, 1.0, 1.0};
+	private double   ambientFactor = 0.5;
+	private double   specularFactor = 0.1;
+	
+	TKImageTextureMaterial earthMap;
+	
 	/** The objects in the scene */
 	private List<TKAbstractGeometryObject> objects = new LinkedList<TKAbstractGeometryObject>();	
 	
 	public QYRayTraceScene() {
-		xScanDensity = 1000;
-		yScanDensity = 1000;
+		xScanDensity = 500;
+		yScanDensity = 500;
 		rayTraceBuffer = new double[xScanDensity][yScanDensity][4];
 		
-		eyeLocation = new TKVector3(250.0, 100.0, 100.0);
-		lightLocation = new TKVector3(250.0, 400.0, -20.0);
+		eyeLocation = new TKVector3(250.0, 250.0, 200.0);
+		lightLocation = new TKVector3(400.0, 350.0, 200.0);
 		
 		// Create a sphere
-		TKAbstractGeometryObject sphere = new TKSphere(new TKVector3(250.0, 250.0, -100.0), 50.0);
+		TKAbstractGeometryObject sphere = new TKSphere(new TKVector3(250.0, 200.0, -10.0), 80.0);
 		
-		TKImageTextureMaterial earthMap = new TKImageTextureMaterial("/Users/qiaoy/Desktop/4128.jpg");
-		earthMap.width = 180; earthMap.height=360;
-		earthMap.xStart = -90; earthMap.yStart = 0;
+		earthMap = new TKImageTextureMaterial("/Users/qiaoy/Desktop/Color Map.jpg");
+		earthMap.width = 360; earthMap.height=180;
+		earthMap.xStart = 0; earthMap.yStart = -90;
+		earthMap.xOffset = 0; earthMap.yOffset = 0;
 		sphere.setMaterial(earthMap);
-		sphere.setUVMapper(new TKSphereLatLongUVMapper(new TKVector3(250.0, 250.0, -100.0), 50.0));
+		sphere.setUVMapper(new TKSphereLongLatUVMapper(new TKVector3(250.0, 200.0, -10.0), 80.0));
 		objects.add(sphere);
 		
-		// Create a plane
-		TKAbstractGeometryObject plane = new TKPlane(0.0, 0.0, 1.0, 200.0);
-		plane.setMaterial(TKSimpleColorMaterial.redColor);
-		objects.add(plane);
+//		// Create a plane
+//		TKAbstractGeometryObject plane = new TKPlane(0.0, 0.0, 1.0, 200.0);
+//		plane.setMaterial(TKSimpleColorMaterial.redColor);
+//		objects.add(plane);
 		
 		updateAnimation(0);
 	}
 	
 	@Override
 	public void render(GL2 gl) {
+		gl.glPointSize((float)Math.max(windowWidth / xScanDensity, windowHeight / yScanDensity));
 		gl.glBegin(GL2.GL_POINTS);
 		for(int i=0; i<xScanDensity; i++) {
 			for(int j=0; j<yScanDensity; j++) {
@@ -78,6 +92,9 @@ public class QYRayTraceScene extends TKScene {
 	public void updateAnimation(long timeElapsed) {
 		// retracing is only necessary if animation states is updated
 		rayTraceScene();
+		earthMap.xOffset += (timeElapsed / 1000.0) * 20.0;
+		//earthMap.yOffset += (timeElapsed / 1000.0) * 10.0;
+
 
 	}
 	
@@ -125,19 +142,22 @@ public class QYRayTraceScene extends TKScene {
 		case SIMPLE:
 			
 			TKVector3 lightVector = lightVectorAtPoint(p);
-			double illumAngle = lightVector.cosAngleToVector(closestObject.surfaceNormalAtPoint(p));
+			double illumAngleCos = lightVector.cosAngleToVector(closestObject.surfaceNormalAtPoint(p));
+			if(illumAngleCos < 0) illumAngleCos = 0;
+
+			double af = (1-illumAngleCos)*ambientFactor;
+			double sf = illumAngleCos > 0 ? Math.pow(illumAngleCos, 16) : 0;
 						
-			if(illumAngle < 0) illumAngle = 0;
 			double[] intrinsicColor = closestObject.getColorAtSurfacePoint(p);
 			
 			double[] blentColor = new double[] {
-					ambientColor[0] * 0.2 + intrinsicColor[0] * 0.8 * illumAngle,
-					ambientColor[1] * 0.2 + intrinsicColor[1] * 0.8 * illumAngle,
-					ambientColor[2] * 0.2 + intrinsicColor[2] * 0.8 * illumAngle,
-					ambientColor[3] * 0.2 + intrinsicColor[3] * 0.8 * illumAngle
+					ambientColor[0] * af + specularColor[0] * sf + intrinsicColor[0] * (1-af-sf),
+					ambientColor[1] * af + specularColor[1] * sf + intrinsicColor[1] * (1-af-sf),
+					ambientColor[2] * af + specularColor[2] * sf + intrinsicColor[2] * (1-af-sf),
+					1//ambientColor[3] * af + specularColor[3] * sf + intrinsicColor[3] * (1-af-sf)
 			};
-			return intrinsicColor;
-//			return blentColor;
+//			return intrinsicColor;
+			return blentColor;
 		case MIRROR:
 			TKRay refRay = reflectedRay(ray, closestObject.surfaceNormalAtPoint(p), p);
 			return look(refRay);

@@ -12,6 +12,8 @@ public class TKImageTextureMaterial extends TKAbstractMaterial {
 	public double height;
 	public double xStart;
 	public double yStart;
+	public double xOffset;
+	public double yOffset;
 	
 	public TKImageTextureMaterial(String imageFilename) {
 		try {
@@ -35,8 +37,13 @@ public class TKImageTextureMaterial extends TKAbstractMaterial {
 		assert(ux >= xStart && ux < xStart + width);
 		assert(uy >= yStart && uy < yStart + height);
 		
-		int x = (int)((ux - xStart) / width * textureImage.getWidth());
-		int y = (int)((uy - yStart) / height * textureImage.getHeight());
+		int x = (int)((ux - xStart) / width * textureImage.getWidth() + xOffset);
+		int y = (int)((uy - yStart) / height * textureImage.getHeight() + yOffset);
+		
+		if(x >= textureImage.getWidth()) x = x % textureImage.getWidth();
+		if(y >= textureImage.getHeight()) y = y % textureImage.getHeight();
+		
+		//System.out.println("u("+ux+","+uy+") mapping to ("+x+","+y+")");
 		
 		Color color = new Color(textureImage.getRGB(x, y));
 		

@@ -21,7 +21,7 @@ public class TKGasketDriver implements GLEventListener {
 	
 	private GLU glu = new GLU();	/**< The GLU object through which all the glu functions will be called */
 	
-	private long lastUpdateEpoch; 	/**< Record the epoch time stamp for updating animation states */
+	private long lastUpdateEpoch = System.currentTimeMillis(); 	/**< Record the epoch time stamp for updating animation states */
 	
 	private TKScene scene; 			/**< The scene this driver will be drawing */
 	
@@ -54,6 +54,10 @@ public class TKGasketDriver implements GLEventListener {
 		gl.glOrtho(0.0f, 500.0f, 0.0f, 500.0f, -1.0f, 1.0f);
 		gl.glMatrixMode(GL2.GL_MODELVIEW);
 		gl.glLoadIdentity();
+		
+		((QYRayTraceScene)scene).windowWidth = width;
+		((QYRayTraceScene)scene).windowHeight = height;
+
 	}
 
 	@Override
