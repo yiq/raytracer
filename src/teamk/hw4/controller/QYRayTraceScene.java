@@ -61,6 +61,13 @@ public class QYRayTraceScene extends TKScene {
 		sphere.setUVMapper(new TKSphereLongLatUVMapper(new TKVector3(250.0, 200.0, -10.0), 80.0));
 		objects.add(sphere);
 		
+		
+		// Create a moon
+		TKAbstractGeometryObject moon = new TKSphere(new TKVector3(100, 200, -10), 20);
+//		moon.setMaterial(TKSimpleColorMaterial.blueColor);
+		moon.setMaterial(new TKSimpleMirrorMaterial());
+		objects.add(moon);
+		
 //		// Create a plane
 //		TKAbstractGeometryObject plane = new TKPlane(0.0, 0.0, 1.0, 200.0);
 //		plane.setMaterial(TKSimpleColorMaterial.redColor);
@@ -92,7 +99,8 @@ public class QYRayTraceScene extends TKScene {
 	public void updateAnimation(long timeElapsed) {
 		// retracing is only necessary if animation states is updated
 		rayTraceScene();
-		earthMap.xOffset += (timeElapsed / 1000.0) * 20.0;
+		earthMap.xOffset -= (timeElapsed / 1000.0) * 10.0;
+		if(earthMap.xOffset < 0) earthMap.xOffset += earthMap.width;
 		//earthMap.yOffset += (timeElapsed / 1000.0) * 10.0;
 
 
@@ -116,7 +124,7 @@ public class QYRayTraceScene extends TKScene {
 		return new TKRay(reflectPoint, reflectedRayDir, true);
 	}
 	
-	private double[] look(TKRay ray) {
+	private double[] look(TKRay ray, double lowBoundT) {
 		
 		double minimalT = Double.POSITIVE_INFINITY;
 		TKVector3 p = null;
@@ -128,7 +136,7 @@ public class QYRayTraceScene extends TKScene {
 				continue;
 			
 			for(double t : roots) {
-				if(t > 0 && t < minimalT) {
+				if(t > lowBoundT && t < minimalT) {
 					minimalT = t;
 					p = new TKVector3(ray.getParametricEquation().evaluate(t));
 					closestObject = o;
@@ -160,7 +168,7 @@ public class QYRayTraceScene extends TKScene {
 			return blentColor;
 		case MIRROR:
 			TKRay refRay = reflectedRay(ray, closestObject.surfaceNormalAtPoint(p), p);
-			return look(refRay);
+			return look(refRay, minimalT);
 		case UNDEFINED:
 		default:
 			// Something is not right
@@ -172,7 +180,7 @@ public class QYRayTraceScene extends TKScene {
 		for(int i=0; i<xScanDensity; i++) {
 			for(int j=0; j<yScanDensity; j++) {
 				TKRay ray = new TKRay(eyeLocation, new TKVector3((double)i/xScanDensity*500.0, (double)j/yScanDensity*500.0, 0.0));
-				rayTraceBuffer[i][j] = look(ray);
+				rayTraceBuffer[i][j] = look(ray, 0.0);
 			}
 		}
 	}

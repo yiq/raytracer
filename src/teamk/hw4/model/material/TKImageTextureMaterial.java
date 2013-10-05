@@ -37,8 +37,8 @@ public class TKImageTextureMaterial extends TKAbstractMaterial {
 		assert(ux >= xStart && ux < xStart + width);
 		assert(uy >= yStart && uy < yStart + height);
 		
-		int x = (int)((ux - xStart) / width * textureImage.getWidth() + xOffset);
-		int y = (int)((uy - yStart) / height * textureImage.getHeight() + yOffset);
+		int x = (int)((ux - xStart + xOffset) / width * textureImage.getWidth());
+		int y = (int)((uy - yStart + yOffset) / height * textureImage.getHeight());
 		
 		if(x >= textureImage.getWidth()) x = x % textureImage.getWidth();
 		if(y >= textureImage.getHeight()) y = y % textureImage.getHeight();
