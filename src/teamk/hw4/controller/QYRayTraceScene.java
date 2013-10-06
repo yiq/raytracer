@@ -38,6 +38,8 @@ public class QYRayTraceScene extends TKScene {
 	private double   specularFactor = 0.1;
 	
 	TKImageTextureMaterial earthMap;
+	TKImageTextureMaterial moonMap;
+
 	
 	/** The objects in the scene */
 	private List<TKAbstractGeometryObject> objects = new LinkedList<TKAbstractGeometryObject>();	
@@ -63,9 +65,16 @@ public class QYRayTraceScene extends TKScene {
 		
 		
 		// Create a moon
-		TKAbstractGeometryObject moon = new TKSphere(new TKVector3(100, 200, -10), 20);
+		TKAbstractGeometryObject moon = new TKSphere(new TKVector3(100, 200, -10), 50);
+		TKSphereLongLatUVMapper mapper = new TKSphereLongLatUVMapper(new TKVector3(100, 200, -10), 50);
+		moonMap = new TKImageTextureMaterial("/Users/qiaoy/Desktop/DeathStar.jpg");
+		moonMap.width = 360; moonMap.height = 180;
+		moonMap.xStart = 0; moonMap.yStart = -90;
+		moonMap.xOffset = 0; moonMap.yOffset = 0;
 //		moon.setMaterial(TKSimpleColorMaterial.blueColor);
-		moon.setMaterial(new TKSimpleMirrorMaterial());
+//		moon.setMaterial(new TKSimpleMirrorMaterial());
+		moon.setMaterial(moonMap);
+		moon.setUVMapper(mapper);
 		objects.add(moon);
 		
 //		// Create a plane
@@ -101,7 +110,9 @@ public class QYRayTraceScene extends TKScene {
 		rayTraceScene();
 		earthMap.xOffset -= (timeElapsed / 1000.0) * 10.0;
 		if(earthMap.xOffset < 0) earthMap.xOffset += earthMap.width;
-		//earthMap.yOffset += (timeElapsed / 1000.0) * 10.0;
+		
+		moonMap.xOffset -= (timeElapsed/1000.0) * 20.0;
+		if(moonMap.xOffset < 0) moonMap.xOffset += moonMap.width;
 
 
 	}
