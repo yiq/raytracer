@@ -176,7 +176,7 @@ coordinate system to 2d longitude / latitude system. The longitude ranges from
 These two materials return the same value at all uv points. The first one 
 returns a color, whereas the second one report MIRROR as the material type
 
-#### TKImageTextureMaterial
+##### TKImageTextureMaterial
 
 This class, upon creation, opens an image file and read its content into
 memory. All the subsequent queries about color will be answered based on values
