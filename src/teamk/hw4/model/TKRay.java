@@ -81,13 +81,18 @@ public class TKRay {
 		this(p0, p1, false);
 	}
 	
+	/** Getter for p0 */
 	public TKVector3 getP0() {return p0;}
+	
+	/** Getter for p1 */
 	public TKVector3 getP1() {return p1;}
 	
+	/** Getter for a directional vector pointing from p0 to p1 */
 	public TKVector3 getDirectionalVector() {
 		return p1.sub(p0).getNormalized();
 	}
 	
+	/** Getter for the parametric equation representation */
 	public TKIParametricEquation getParametricEquation() {
 		return new TKLineParametric(p0, p1);
 	}

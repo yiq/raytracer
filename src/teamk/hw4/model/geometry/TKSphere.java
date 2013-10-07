@@ -37,7 +37,7 @@ public class TKSphere extends TKAbstractGeometryObject {
 		           4*(power(cx,2) - power(r,2) - 2*cx*x0 + power(x0,2) + power(cy - y0,2) +
 		              power(cz - z0,2))*(power(x0 - x1,2) + power(y0 - y1,2) + power(z0 - z1,2));
 		
-		/* >>>>>> END PASTED CODE <<<<<< */
+		/* >>>>>>  END  PASTED CODE <<<<<< */
 				
 		// Test the discriminate
 		if (discriminate < 0) return null;
@@ -52,7 +52,7 @@ public class TKSphere extends TKAbstractGeometryObject {
 		        y0*y1 - cz*z0 + power(z0,2) - Sqrt(discriminate)/2.
 		          + cz*z1 - z0*z1)/(power(x0 - x1,2) + power(y0 - y1,2) + power(z0 - z1,2));
 		
-		/* >>>>>> END  PASTED CODE <<<<<< */
+		/* >>>>>>  END  PASTED CODE <<<<<< */
 		
 		if (doubleEqual(discriminate, 0)) {
 			// if discriminate is 0, t1 and t2 must be the same, or something weird must have happened

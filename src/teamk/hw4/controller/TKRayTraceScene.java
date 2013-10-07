@@ -6,6 +6,7 @@ import java.util.List;
 import javax.media.opengl.GL2;
 
 import teamk.hw4.model.*;
+import teamk.hw4.model.geometry.TKAbstractGeometryObject;
 import teamk.hw4.utils.math.*;
 
 
@@ -20,7 +21,7 @@ public class TKRayTraceScene extends TKScene {
 	private TKVector3 lightLocation; 	/**< The location of the light source */
 	
 	/** The objects in the scene */
-	private List<TKITraceable> objects = new LinkedList<TKITraceable>();	
+	private List<TKAbstractGeometryObject> objects = new LinkedList<TKAbstractGeometryObject>();	
 	
 	public TKRayTraceScene() {
 		// TODO Construct the scene
@@ -47,7 +48,7 @@ public class TKRayTraceScene extends TKScene {
 	 * @param p   The point at which the light vector starts
 	 * @return    The light vector
 	 */
-	public TKVector3 lightVectorForObjectAtPoint(TKVector3 p) {
+	public TKVector3 lightVectorAtPoint(TKVector3 p) {
 		return lightLocation.sub(p).getNormalized();
 	}
 

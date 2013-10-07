@@ -3,7 +3,7 @@ package teamk.hw4.model;
 import teamk.hw4.utils.math.*;
 
 /**
- * The base class for any Analytical Geometry object
+ * The interface for any object that is mathematically ray traceable
  * 
  * @author Yi Qiao
  */

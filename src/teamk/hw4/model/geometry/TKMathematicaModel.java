@@ -25,7 +25,7 @@ public abstract class TKMathematicaModel {
 	boolean doubleEqual(double arg0, double arg1, double tolerance) {return Math.abs(arg0-arg1)<tolerance;}
 	
 	/**
-	 * Overload of the the doubleEqual/3 function to provide a default tolerance of 1e-6
+	 * Overload of the doubleEqual/3 function to provide a default tolerance of 1e-6
 	 * @param arg0	First double value
 	 * @param arg1	Second double value
 	 * @return		True if the difference between the two doubles is less than 1e-6, False otherwise
