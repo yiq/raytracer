@@ -5,6 +5,10 @@ This project contains the code for the homework assignment 4 of the CS333
 Computer Graphics class. The the rest of the document, the structure of the
 project will be described
 
+**NOTICE: An HTML version of this document can be viewed on github at the
+following url:
+[https://github.com/yiq/raytracer](https://github.com/yiq/raytracer)**
+
 
 Application Design
 ------------------
