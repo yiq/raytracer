@@ -195,7 +195,7 @@ public class TKTestSphere {
 		assertNull("no color should be returned before assigning a material", tempSphere.getColorAtSurfacePoint(surfacePoint));
 		assertTrue("UNDEFINED material type should be returned before assigning a material", tempSphere.getMaterialTypeAtSurfacePoint(surfacePoint) == TKMaterialTypes.UNDEFINED);
 
-		tempSphere.setMaterial(TKSimpleColorMaterial.blueColor);
+		tempSphere.setMaterial(TKSimpleColorMaterial.getBlueColor());
 		double[] color = tempSphere.getColorAtSurfacePoint(surfacePoint);
 		assertEquals("the returned color should have a red factor of 0.0", 0.0, color[0], _tolerance);
 		assertEquals("the returned color should have a green factor of 0.0", 0.0, color[1], _tolerance);

@@ -1,7 +1,7 @@
 package teamk.hw4.model.material;
 
 /**
- * A list of supported material types
+ * A list of supported material types to hint the renderer how to treat the color value
  * 
  * @author Yi Qiao
  *
