@@ -50,22 +50,27 @@ Package Structure
 Everything is contained in the umbrella package "teamk.hw4". The base package
 contains the entry point of the application 'TKGasketDriver'. All the classes
 are prefixed with 'TK', which stands for 'TeamK', to prevent namespace
-collision.
-
-- teamk.hw4.model  
-  Contains all the model classes. 
-  
-- teamk.hw4.model.tests  
-  Contains Unit test cases for the model classes.
+collision. Also, any package suffixed with .tests contains unity test cases
+for classes found in their parent package.
 
 - teamk.hw4.controller  
   Contains the scene controllers.
   
 - teamk.hw4.utils.math  
   Contains utility classes for mathematics.
+ 
+- teamk.hw4.model  
+  Contains all the model classes. 
   
-- teamk.hw4.utils.math.tests  
-  Contains unit test cases for mathematics utilities
+- teamk.hw4.model.geometry  
+  Contains basic geometries supported by the project. 
+
+- teamk.hw4.model.material  
+  Contains material classes that defines the color of the object it attached to
+
+- teamk.hw4.model.uvmapper  
+  Contains classes that transforms a 3d point in scene space into 2d point in
+  texture space
 
 
 Requirements
@@ -102,41 +107,79 @@ practice.
 Description and Usage of some key classes
 -----------------------------------------
 
-### TKGasketDriver
+### Views
+
+#### TKGasketDriver
 
 This class is adopted from the gasket demo introduced early in the class. It
 contains mostly boiler plate codes for handling OpenGL drawing events. Since it
 proxy all the drawing and updating logics to the actual scene it renders,
 minimal modifications need to be done to it. 
 
-### TKScene
+### Controllers
+
+#### TKScene
 
 The abstract controller class that manages a drawable scene. It defines two
 essential APIs, render() and updateAnimation() for the actual drawing logic and
 animation states updating. It also provides a default implementation of the
 KeyEventListener interface for handling keyboard events. 
 
-### TKRayTraceScene
+#### TKRayTraceScene
 
 The concrete class that renders the scene needed for homework 4. It will be
 responsible for creating the objects in the scene, setting the light location,
 perform the actual ray tracing, and drawing out the pixels resulted from the
 ray tracing.
 
-### TKRay
+### Model
+
+#### TKRay
 
 A line in 3d space. In this project it will be representing the tracing rays.
 
-### TKITraceable
+#### TKITraceable
 
 An interface with method needed for all ray traceable objects. 
 
-### TKVector3
+#### TKVector3
 
 Encapsulation of 3d vector arithmetics.
 
-### TKIParametricEquation
+#### TKIParametricEquation
 
 An interface for any object to implement that represents a set of parametric
 equation. This allows such equations to be returned, almost like a higher order
 function, in the form of objects, and evaluated at any given parameter 't'.
+
+#### Geometries
+
+##### TKAbstractGeometryObject
+
+This abstract base class provides functions to set the material and uv mapper.
+They together will be able to answer the following question: At any given point
+on the surface of an object, what type of material (color / mirror) it is and 
+what the color values are (in rgba)
+
+#### UV Mappers
+
+##### TKSphereLongLatUVMapper
+
+A uv mapper that will transform a point on the surface of a sphere from 3d 
+coordinate system to 2d longitude / latitude system. The longitude ranges from
+0 to 360, and the latitude ranges from -90 (south pole) to +90 (north pole)
+
+#### Materials
+
+##### TKSimpleColorMaterial and TKSimpleMirrorMaterial
+
+These two materials return the same value at all uv points. The first one 
+returns a color, whereas the second one report MIRROR as the material type
+
+#### TKImageTextureMaterial
+
+This class, upon creation, opens an image file and read its content into
+memory. All the subsequent queries about color will be answered based on values
+in the image file. The UV coordinate dimension will needs to be configured 
+before it can be reliably used. See the javadoc of 
+TKImageTextureMaterial::setUVDimension for details
