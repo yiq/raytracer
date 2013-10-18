@@ -78,7 +78,7 @@ public class TKRayTraceScene extends TKScene {
 		objects.add(mirrorSphereA);
 		
 		// Create second mirrored sphere
-		TKAbstractGeometryObject mirrorSphereB = new TKSphere(new TKVector3(100.0, 100.0, -20.0), 60.0);
+		TKAbstractGeometryObject mirrorSphereB = new TKSphere(new TKVector3(300.0, 50.0, -10.0), 60.0);
 		mirrorSphereB.setUVMapper(new TKSimpleUVMapper());
 		mirrorSphereB.setMaterial(new TKSimpleMirrorMaterial());
 		objects.add(mirrorSphereB);
