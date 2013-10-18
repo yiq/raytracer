@@ -9,6 +9,7 @@ import teamk.hw4.model.*;
 import teamk.hw4.model.geometry.TKAbstractGeometryObject;
 import teamk.hw4.model.geometry.TKPlane;
 import teamk.hw4.model.geometry.TKSphere;
+import teamk.hw4.model.material.TKSimpleCheckerMaterial;
 import teamk.hw4.model.material.TKSimpleColorMaterial;
 import teamk.hw4.model.material.TKSimpleMirrorMaterial;
 import teamk.hw4.model.uvmapper.TKSimpleUVMapper;
@@ -38,7 +39,7 @@ public class TKRayTraceScene extends TKScene {
 
 	private double[] ambientColor = new double[] {0.25, 0.25, 0.25, 1.0};
 	private double[] specularColor = new double[] {1.0, 1.0, 1.0, 1.0};
-	private double ambientFactor = 0.5;
+	private double ambientFactor = 0.8;
 	private double specularFactor = 0.1;
 	
 	/** The objects in the scene */
@@ -85,14 +86,16 @@ public class TKRayTraceScene extends TKScene {
 
 		// Create a plane in background
 		TKAbstractGeometryObject redPlane = new TKPlane(0.0, 1.0, 1.0, 200.0);
+		redPlane.setUVMapper(new TKSimpleUVMapper());
 		redPlane.setMaterial(new TKSimpleColorMaterial(1.0, 0.0, 0.0, 1.0));
 		objects.add(redPlane);
 		
 		// Create a checkered plane
-		TKAbstractGeometryObject bluePlane = new TKPlane(200.0, 200.0, 200.0, 300.0);
-		bluePlane.setMaterial(new TKSimpleColorMaterial(0.0, 0.0, 1.0, 1.0));
-		objects.add(bluePlane);
-		
+		TKAbstractGeometryObject checkPlane = new TKPlane(200.0, 200.0, 200.0, 300.0);
+		checkPlane.setUVMapper(new TKSimpleUVMapper());
+		checkPlane.setMaterial(new TKSimpleCheckerMaterial(1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 50));
+		objects.add(checkPlane);
+
 	}
 
 	@Override
