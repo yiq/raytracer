@@ -27,7 +27,7 @@ public class TKRayTraceScene extends TKScene {
 	private TKVector3 lightLocation; 	/**< The location of the light source */
 	
 	// The location of the camera
-	private TKVector3 cameraLocation;
+	private TKVector3 eyeLocation;
 	
 	private double[][][] rayTraceBuffer;
 	
@@ -57,7 +57,7 @@ public class TKRayTraceScene extends TKScene {
 		windowHeight = 800;
 
 		// Set camera and light locations
-		cameraLocation = new TKVector3(250.0, 250.0, 200.0);
+		eyeLocation = new TKVector3(250.0, 250.0, 200.0);
 		lightLocation = new TKVector3(500.0, 300.0, 200.0);
 		
 		// Create a green sphere at (250, 200, -10) with radius 50
@@ -119,10 +119,9 @@ public class TKRayTraceScene extends TKScene {
 
 	@Override
 	public void updateAnimation(long timeElapsed) {
-		// TODO Auto-generated method stub
+		rayTraceScene(); 
 
 	}
-	
 	/**
 	 * Calculates the light vector that starts from a given point, and points to the light source
 	 * 
@@ -134,4 +133,73 @@ public class TKRayTraceScene extends TKScene {
 	public TKVector3 lightVectorAtPoint(TKVector3 p) {
 		return lightLocation.sub(p).getNormalized();
 	}
+
+
+	private void rayTraceScene() {
+		for(int i=0; i<xScanDensity; i++) {
+			for(int j=0; j<yScanDensity; j++) {
+				TKRay ray = new TKRay(eyeLocation, new TKVector3((double)i/xScanDensity*500.0, (double)j/yScanDensity*500.0, 0.0));
+				rayTraceBuffer[i][j] = look(ray, 0.0);
+			}
+		}
+	}
+
+	private double[] look(TKRay ray, double lowBoundT) {
+
+		double minimalT = Double.POSITIVE_INFINITY;
+		TKVector3 p = null;
+		TKAbstractGeometryObject closestObject = null;
+
+		for(TKAbstractGeometryObject o : objects) {
+			double[] roots = o.findRootsOnRay(ray);
+			if(roots == null)
+				continue;
+
+			for(double t : roots) {
+				if(t > lowBoundT && t < minimalT) {
+					minimalT = t;
+					p = new TKVector3(ray.getParametricEquation().evaluate(t));
+					closestObject = o;
+				}
+			}
+		}
+
+		if (p == null) return null;
+
+		switch(closestObject.getMaterialTypeAtSurfacePoint(p)) {
+		case SIMPLE:
+
+			TKVector3 lightVector = lightVectorAtPoint(p);
+			double illumAngleCos = lightVector.cosAngleToVector(closestObject.surfaceNormalAtPoint(p));
+			if(illumAngleCos < 0) illumAngleCos = 0;
+
+			double af = (1-illumAngleCos)*ambientFactor;
+			double sf = illumAngleCos > 0 ? Math.pow(illumAngleCos, 16) : 0;
+
+			double[] intrinsicColor = closestObject.getColorAtSurfacePoint(p);
+
+			double[] blentColor = new double[] {
+					ambientColor[0] * af + specularColor[0] * sf + intrinsicColor[0] * (1-af-sf),
+					ambientColor[1] * af + specularColor[1] * sf + intrinsicColor[1] * (1-af-sf),
+					ambientColor[2] * af + specularColor[2] * sf + intrinsicColor[2] * (1-af-sf),
+					ambientColor[3] * af + specularColor[3] * sf + intrinsicColor[3] * (1-af-sf)
+			}; 
+			return blentColor;
+
+		case MIRROR:
+			TKRay refRay = reflectedRay(ray, closestObject.surfaceNormalAtPoint(p), p);
+			return look(refRay, minimalT);
+		case UNDEFINED: 
+		default:
+			// Something is not right
+			return null;
+		}
+	}
+
+	private TKRay reflectedRay(TKRay inRay, TKVector3 surfNorm, TKVector3 reflectPoint) {
+		TKVector3 inRayDir = inRay.getDirectionalVector();
+		TKVector3 reflectedRayDir = inRayDir.sub(surfNorm.getNormalized().mul(inRayDir.dotProduct(surfNorm) * 2));
+		return new TKRay(reflectPoint, reflectedRayDir, true);
+	}
+
 }
