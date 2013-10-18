@@ -32,6 +32,9 @@ public class TKRayTraceScene extends TKScene {
 	
 	private int xScanDensity;
 	private int yScanDensity;
+	
+	private double windowWidth;
+	private double windowHeight;
 
 	private double[] ambientColor = new double[] {0.25, 0.25, 0.25, 1.0};
 	private double[] specularColor = new double[] {1.0, 1.0, 1.0, 1.0};
@@ -47,36 +50,68 @@ public class TKRayTraceScene extends TKScene {
 		xScanDensity = 500;
 		yScanDensity = 500;
 		rayTraceBuffer = new double[xScanDensity][yScanDensity][4];
-		
+
+		// Set window height and width
+		windowWidth = 800;
+		windowHeight = 800;
+
 		// Set camera and light locations
 		cameraLocation = new TKVector3(250.0, 250.0, 200.0);
 		lightLocation = new TKVector3(500.0, 300.0, 200.0);
 		
-		
-		// Create a green sphere at (250, 250, -10) with radius 50
+		// Create a green sphere at (250, 200, -10) with radius 50
 		TKAbstractGeometryObject greenSphere = new TKSphere(new TKVector3(250.0, 200.0, -10.0), 50.0);
 		greenSphere.setUVMapper(new TKSimpleUVMapper());
 		greenSphere.setMaterial(new TKSimpleColorMaterial(0.0, 1.0, 0.0, 1.0));
 		objects.add(greenSphere);
 		
-		// Create a mirrored sphere at (100, 100, -20) with radius 60
-		TKAbstractGeometryObject mirrorSphere = new TKSphere(new TKVector3(100.0, 100.0, -20.0), 60.0);
-		mirrorSphere.setUVMapper(new TKSimpleUVMapper());
-		mirrorSphere.setMaterial(new TKSimpleMirrorMaterial());
-		objects.add(mirrorSphere);
+		// Create a randomly colored sphere at
+		TKAbstractGeometryObject randSphere = new TKSphere(new TKVector3(400.0, 300.0, -10.0), 60.0);
+		randSphere.setUVMapper(new TKSimpleUVMapper());
+		randSphere.setMaterial(new TKSimpleColorMaterial(Math.random(), Math.random(), Math.random(), 1.0));
+		objects.add(randSphere);
 		
-		// Create a red plane
-		TKAbstractGeometryObject redPlane = new TKPlane(0.0, 0.0, 1.0, 200.0);
+		// Create first mirrored sphere
+		TKAbstractGeometryObject mirrorSphereA = new TKSphere(new TKVector3(100.0, 100.0, -20.0), 60.0);
+		mirrorSphereA.setUVMapper(new TKSimpleUVMapper());
+		mirrorSphereA.setMaterial(new TKSimpleMirrorMaterial());
+		objects.add(mirrorSphereA);
+		
+		// Create second mirrored sphere
+		TKAbstractGeometryObject mirrorSphereB = new TKSphere(new TKVector3(100.0, 100.0, -20.0), 60.0);
+		mirrorSphereB.setUVMapper(new TKSimpleUVMapper());
+		mirrorSphereB.setMaterial(new TKSimpleMirrorMaterial());
+		objects.add(mirrorSphereB);
+
+		// Create a plane in background
+		TKAbstractGeometryObject redPlane = new TKPlane(0.0, 1.0, 1.0, 200.0);
 		redPlane.setMaterial(new TKSimpleColorMaterial(1.0, 0.0, 0.0, 1.0));
 		objects.add(redPlane);
+		
+		// Create a checkered plane
+		TKAbstractGeometryObject bluePlane = new TKPlane(200.0, 200.0, 200.0, 300.0);
+		bluePlane.setMaterial(new TKSimpleColorMaterial(0.0, 0.0, 1.0, 1.0));
+		objects.add(bluePlane);
+		
 	}
 
 	@Override
 	public void render(GL2 gl) {
+		gl.glPointSize((float)Math.max(windowWidth / xScanDensity, windowHeight / yScanDensity));
 		gl.glBegin(GL2.GL_POINTS);
-		for (TKAbstractGeometryObject object : objects) {
-			
+		for (int i = 0; i < xScanDensity; i++) {
+			for (int j = 0; j < yScanDensity; j++) {
+				if (rayTraceBuffer[i][j] != null) {
+					gl.glColor4d(
+							rayTraceBuffer[i][j][0],
+							rayTraceBuffer[i][j][1],
+							rayTraceBuffer[i][j][2],
+							rayTraceBuffer[i][j][3]);
+					gl.glVertex3d(i * 500.0 / xScanDensity, j * 500.0 / yScanDensity, 0);
+				}
+			}
 		}
+		gl.glEnd();
 	}
 
 	@Override
@@ -96,5 +131,4 @@ public class TKRayTraceScene extends TKScene {
 	public TKVector3 lightVectorAtPoint(TKVector3 p) {
 		return lightLocation.sub(p).getNormalized();
 	}
-
 }
