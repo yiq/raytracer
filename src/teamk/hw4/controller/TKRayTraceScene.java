@@ -139,12 +139,12 @@ public class TKRayTraceScene extends TKScene {
 		for(int i=0; i<xScanDensity; i++) {
 			for(int j=0; j<yScanDensity; j++) {
 				TKRay ray = new TKRay(eyeLocation, new TKVector3((double)i/xScanDensity*500.0, (double)j/yScanDensity*500.0, 0.0));
-				rayTraceBuffer[i][j] = look(ray, 0.0);
+				rayTraceBuffer[i][j] = look(ray);
 			}
 		}
 	}
 
-	private double[] look(TKRay ray, double lowBoundT) {
+	private double[] look(TKRay ray) {
 
 		double minimalT = Double.POSITIVE_INFINITY;
 		TKVector3 p = null;
@@ -156,7 +156,7 @@ public class TKRayTraceScene extends TKScene {
 				continue;
 
 			for(double t : roots) {
-				if(t > lowBoundT && t < minimalT) {
+				if(t > 1e-2 && t < minimalT) {
 					minimalT = t;
 					p = new TKVector3(ray.getParametricEquation().evaluate(t));
 					closestObject = o;
@@ -188,7 +188,7 @@ public class TKRayTraceScene extends TKScene {
 
 		case MIRROR:
 			TKRay refRay = reflectedRay(ray, closestObject.surfaceNormalAtPoint(p), p);
-			return look(refRay, minimalT);
+			return look(refRay);
 		case UNDEFINED: 
 		default:
 			// Something is not right
@@ -198,7 +198,7 @@ public class TKRayTraceScene extends TKScene {
 
 	private TKRay reflectedRay(TKRay inRay, TKVector3 surfNorm, TKVector3 reflectPoint) {
 		TKVector3 inRayDir = inRay.getDirectionalVector();
-		TKVector3 reflectedRayDir = inRayDir.sub(surfNorm.getNormalized().mul(inRayDir.dotProduct(surfNorm) * 2));
+		TKVector3 reflectedRayDir = inRayDir.sub(surfNorm.getNormalized().mul(inRayDir.dotProduct(surfNorm.getNormalized()) * 2));
 		return new TKRay(reflectPoint, reflectedRayDir, true);
 	}
 
